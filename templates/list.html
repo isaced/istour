@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block page_title %}开始{% endblock %}
+
+{% block page_content %}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="10%">#</th>
+          <th width="70%">城市</th>
+          <th width="20%">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>重庆</td>
+          <td class="btn-group">
+            <button type="button" class="btn btn-default glyphicon glyphicon-edit"> 修改</button>
+            <button type="button" class="btn btn-danger glyphicon glyphicon-trash"> 删除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<h4>添加城市：</h4><br>
+
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">城市名</div>
+      <input type="text" class="form-control" id="city_name" placeholder="重庆">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary glyphicon glyphicon-plus"></button>
+</form>
+
+{% endblock %}
+
