@@ -28,7 +28,11 @@ def categories():
 @app.route('/places')
 def places():
     return render_template('list.html')
-    
+
+@app.route('/places-edit')
+def places_edit():
+    return render_template('places-edit.html')
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
