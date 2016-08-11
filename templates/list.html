@@ -1,6 +1,26 @@
 {% extends "base.html" %}
 
-{% block page_title %}开始{% endblock %}
+{% block page_title %}
+{{title}}
+<form class="form-inline" action="
+{%- if title == '城市' -%}{{url_for('city_add')}}{% endif %}
+{%- if title == '分类' -%}{{url_for('category_add')}}{% endif %}
+{%- if title == '景点' -%}{{url_for('places_edit')}}{% endif %}
+" method="POST" style="float:right">
+  <div class="form-group">
+  {%- if title != '景点' -%}
+    <div class="input-group">
+      <div class="input-group-addon">{{title}}名</div>
+      <input type="text" class="form-control" name="obj_name" placeholder="">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary glyphicon glyphicon-plus"></button>
+  {% else %}
+  <a href="{{url_for('places_edit')}}" class="btn btn-primary glyphicon glyphicon-plus"></a>
+  {% endif %}
+</form>
+{% endblock %}
+
 
 {% block page_content %}
   <div class="table-responsive">
@@ -8,15 +28,15 @@
       <thead>
         <tr>
           <th width="10%">#</th>
-          <th width="70%">城市</th>
+          <th width="70%">{{title}}</th>
           <th width="20%">操作</th>
         </tr>
       </thead>
       <tbody>
-      {% for city in city_list %}
+      {% for obj in obj_list %}
         <tr>
-          <td>{{ city.id }}</td>
-          <td>{{ city.name }}</td>
+          <td>{{ obj.id }}</td>
+          <td>{{ obj.name }}</td>
           <td class="btn-group">
             <button type="button" class="btn btn-default glyphicon glyphicon-edit"> 修改</button>
             <button type="button" class="btn btn-danger glyphicon glyphicon-trash"> 删除</button>
@@ -26,18 +46,6 @@
       </tbody>
     </table>
   </div>
-
-<h4>添加城市：</h4><br>
-
-<form class="form-inline" action="{{url_for('city_add')}}" method="POST">
-  <div class="form-group">
-    <div class="input-group">
-      <div class="input-group-addon">城市名</div>
-      <input type="text" class="form-control" name="city_name" placeholder="重庆">
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary glyphicon glyphicon-plus"></button>
-</form>
 
 {% endblock %}
 
