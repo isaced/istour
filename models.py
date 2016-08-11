@@ -2,15 +2,18 @@ from app import db
 
 class City(db.Model):
     __tablename__ = 'City'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True)
+
+    def __init__(self, name=None):
+            self.name = name
 
     def __repr__(self):
         return '<City %r>' % (self.name)
 
 class Place(db.Model):
     __tablename__ = 'Place'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True)
     city_id = db.Column(db.Integer, db.ForeignKey('City.id'))
     city = db.relationship('City', backref=db.backref('citys', lazy='dynamic'))
@@ -26,7 +29,7 @@ class Place(db.Model):
 
 class Category(db.Model):
     __tablename__ = 'Category'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True)
 
     def __repr__(self):

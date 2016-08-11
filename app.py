@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
+from flask import request,redirect,url_for
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -18,8 +19,18 @@ def index():
 @app.route('/cities')
 def cities():
     city_list = models.City.query.all()
-    print(city_list)
-    return render_template('list.html')
+    return render_template('list.html', city_list=city_list)
+
+@app.route('/city_add', methods=['POST'])
+def city_add():
+    city_name = request.form['city_name']
+    print(city_name)
+    if city_name:
+        city = models.City(city_name)
+        db.session.add(city)
+        db.session.commit()
+    return redirect(url_for('cities'))
+
 
 @app.route('/categories')
 def categories():
