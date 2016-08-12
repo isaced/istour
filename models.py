@@ -18,7 +18,7 @@ class Place(db.Model):
     city_id = db.Column(db.Integer, db.ForeignKey('City.id'))
     city = db.relationship('City', backref=db.backref('citys', lazy='dynamic'))
     postion = db.Column(db.String(50))
-    excerpt = db.Column(db.String(50))
+    excerpt = db.Column(db.String(200))
     description = db.Column(db.Text)
     category_id  = db.Column(db.Integer, db.ForeignKey('Category.id'))
     category = db.relationship('Category', backref=db.backref('places', lazy='dynamic'))
