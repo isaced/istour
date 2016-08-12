@@ -5,7 +5,6 @@
 <form class="form-inline" action="
 {%- if title == '城市' -%}{{url_for('city_add')}}{% endif %}
 {%- if title == '分类' -%}{{url_for('category_add')}}{% endif %}
-{%- if title == '景点' -%}{{url_for('places_edit')}}{% endif %}
 " method="POST" style="float:right">
   <div class="form-group">
   {%- if title != '景点' -%}
@@ -16,7 +15,7 @@
   </div>
   <button type="submit" class="btn btn-primary glyphicon glyphicon-plus"></button>
   {% else %}
-  <a href="{{url_for('places_edit')}}" class="btn btn-primary glyphicon glyphicon-plus"></a>
+  <a href="{{url_for('place_edit')}}" class="btn btn-primary glyphicon glyphicon-plus"></a>
   {% endif %}
 </form>
 {% endblock %}
@@ -38,8 +37,10 @@
           <td>{{ obj.id }}</td>
           <td>{{ obj.name }}</td>
           <td class="btn-group">
-            <button type="button" class="btn btn-default glyphicon glyphicon-edit"> 修改</button>
-            <button type="button" class="btn btn-danger glyphicon glyphicon-trash"> 删除</button>
+            <a type="button" class="btn btn-default glyphicon glyphicon-edit" href="
+            {%- if title == '景点' -%} {{url_for('place_edit',place_id=obj.id)}} {% endif %}
+            "> 修改</a>
+            <a type="button" class="btn btn-danger glyphicon glyphicon-trash" href=""> 删除</a>
           </td>
         </tr>
       {% endfor %}

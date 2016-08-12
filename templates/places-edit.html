@@ -19,17 +19,17 @@
 <form method="POST">
   <div class="input-group">
     <div class="input-group-addon">景点名称</div>
-    <input class="form-control" name="places_name" placeholder="大竹峰" value="{{ place.name if place is defined  }}">
+    <input class="form-control" name="place_name" placeholder="大竹峰" value="{{ place.name if place is defined  }}">
   </div>
   <br>
   <div class="input-group">
     <div class="input-group-addon">坐标</div>
-    <input class="form-control" name="place_position" placeholder="1111,2222">
+    <input class="form-control" name="place_position" placeholder="1111,2222" value="{{ place.postion if place is defined  }}">
   </div>
   <br>
   <div class="input-group">
     <div class="input-group-addon">简介</div>
-    <input class="form-control" name="place_excerpt" placeholder="仙境一样的地方...">
+    <input class="form-control" name="place_excerpt" placeholder="仙境一样的地方..." value="{{ place.excerpt if place is defined  }}">
   </div>
   <br>
   <div class="input-group">
@@ -42,13 +42,12 @@
     </div>
   </div>
   <br>
-
   <div class="form-group">
     <label class="col-sm-1 control-label" style="line-height:32px;">城市</label>
     <div class="col-sm-2">
         <select class="form-control" name="place_city_id">
           {% for city in city_list %}
-          <option value="{{city.id}}">{{city.name}}</option>
+          <option value="{{city.id}}" {% if place is defined and city.id|int()==place.city_id|int() %} selected="selected" {% endif%}>{{city.name}}</option>
           {% endfor %}
         </select>
     </div>
@@ -56,15 +55,17 @@
     <div class="col-sm-2">
         <select class="form-control" name="place_category_id">
         {% for category in category_list %}
-          <option value="{{category.id}}">{{category.name}}</option>
-        </select>
+          <option value="{{category.id}}"
+          {% if place is defined and category.id|int()==place.category_id|int() %} selected="selected" {% endif %}
+          >{{category.name}}</option>
         {% endfor %}
+        </select>
     </div>
   </div>
   <br>
   <br>
   <div class="form-group">
-      <textarea name="place_desc">Easy (and free!) You should check out our premium features.</textarea>
+      <textarea name="place_desc">{{ place.description if place is defined  }}</textarea>
   </div>
 
   <button type="submit" class="btn btn-default" style="width:100%">提交</button>

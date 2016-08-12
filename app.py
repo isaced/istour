@@ -8,9 +8,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
 db = SQLAlchemy(app)
 import models
-# from models import City
-
-db.create_all()
 
 @app.route('/')
 def index():
@@ -23,7 +20,8 @@ def cities():
 
 @app.route('/city_add', methods=['POST'])
 def city_add():
-    city_name = request.form['city_name']
+    print('Call city_add....')
+    city_name = request.form['obj_name']
     print(city_name)
     if city_name:
         city = models.City(city_name)
@@ -38,7 +36,9 @@ def categories():
 
 @app.route('/category_add', methods=['POST'])
 def category_add():
-    category_name = request.form['obj_name']
+    print('category_name')
+    category_name = request.form.get('obj_name')
+    print(category_name)
     if category_name:
         category = models.Category(category_name)
         db.session.add(category)
@@ -50,32 +50,38 @@ def places():
     obj_list = models.Place.query.all()
     return render_template('list.html',title='景点',obj_list=obj_list)
 
-@app.route('/places-edit/')
-@app.route('/places-edit/<int:place_id>/')
-def places_edit(place_id=None, methods=['GET', 'POST']):
-    print('~~~~aa')
-    city_list = models.City.query.all()
-    category_list = models.Category.query.all()
+@app.route('/place_edit/', methods=['POST','GET'])
+@app.route('/place_edit/<int:place_id>/', methods=['POST','GET'])
+def place_edit(place_id=None):
     print(request.method)
     if request.method == 'POST':
-        print('aaa')
-        # 修改
-        place = models.Place()
-        place.name = request.form['place_name']
-        place.postion = request.form['place_position']
-        place.city_id = request.form['place_city_id']
-        place.category_id = request.form['place_category_id']
-        place.description = request.form['place_desc']
-        place.excerpt = request.form['place_excerpt']
-        db.session.add(place)
-        db.session.commit()
+        place = None
+        if place_id:
+            # 修改
+            place = models.Place.query.filter(models.Place.id == place_id).first()
+        else:
+            # 新增
+            place = models.Place()
 
-        # 新增
+        place.name = request.form.get('place_name')
+        place.postion = request.form.get('place_position')
+        place.city_id = request.form.get('place_city_id')
+        place.category_id = request.form.get('place_category_id')
+        place.description = request.form.get('place_desc')
+        place.excerpt = request.form.get('place_excerpt')
+
+        if not place_id:
+            db.session.add(place)
+        db.session.commit()
 
         return redirect(url_for('places'))
     else:
+        city_list = models.City.query.all()
+        category_list = models.Category.query.all()
+
         if place_id:
             place = models.Place.query.filter(models.Place.id == place_id).first()
+            print(place,place.id)
             return render_template('places-edit.html',title='编辑景点',place=place,city_list=city_list,category_list=category_list)
         else:
             return render_template('places-edit.html',title='新建景点',city_list=city_list,category_list=category_list)
