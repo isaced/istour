@@ -6,8 +6,8 @@ from flask import request,redirect,url_for
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
-db = SQLAlchemy(app)
 import models
+db = SQLAlchemy(app)
 
 @app.route('/')
 def index():
@@ -85,6 +85,31 @@ def place_edit(place_id=None):
             return render_template('places-edit.html',title='编辑景点',place=place,city_list=city_list,category_list=category_list)
         else:
             return render_template('places-edit.html',title='新建景点',city_list=city_list,category_list=category_list)
+
+@app.route('/delete/city/<int:city_id>')
+@app.route('/delete/category/<int:category_id>')
+@app.route('/delete/place/<int:place_id>')
+def delet_obj(city_id=None,category_id=None,place_id=None):
+    if city_id:
+        obj = models.City.query.filter(models.City.id == city_id).first()
+        db_session = db.session.object_session(obj)
+        db_session.delete(obj)
+        db_session.commit()
+        return redirect(url_for('cities'))
+    elif category_id:
+        obj = models.Category.query.filter(models.Category.id == category_id).first()
+        db_session = db.session.object_session(obj)
+        db_session.delete(obj)
+        db_session.commit()
+        return redirect(url_for('categories'))
+    elif place_id:
+        obj = models.Place.query.filter(models.Place.id == place_id).first()
+        db_session = db.session.object_session(obj)
+        db_session.delete(obj)
+        db_session.commit()
+        return redirect(url_for('places'))
+    else:
+        redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.debug = True

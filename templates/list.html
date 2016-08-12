@@ -40,7 +40,11 @@
             <a type="button" class="btn btn-default glyphicon glyphicon-edit" href="
             {%- if title == '景点' -%} {{url_for('place_edit',place_id=obj.id)}} {% endif %}
             "> 修改</a>
-            <a type="button" class="btn btn-danger glyphicon glyphicon-trash" href=""> 删除</a>
+            <a type="button" class="btn btn-danger glyphicon glyphicon-trash" href="
+            {%- if title == '城市' -%}{{url_for('delet_obj',city_id=obj.id)}}{% endif %}
+            {%- if title == '分类' -%}{{url_for('delet_obj',category_id=obj.id)}}{% endif %}
+            {%- if title == '景点' -%}{{url_for('delet_obj',place_id=obj.id)}}{% endif %}
+            "> 删除</a>
           </td>
         </tr>
       {% endfor %}
