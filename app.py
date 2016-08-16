@@ -6,8 +6,8 @@ from flask import request,redirect,url_for
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
-import models
 db = SQLAlchemy(app)
+import models
 
 @app.route('/')
 def index():
