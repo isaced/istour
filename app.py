@@ -111,6 +111,25 @@ def delet_obj(city_id=None,category_id=None,place_id=None):
     else:
         redirect(url_for('index'))
 
+
+@app.route('/edit/city/<int:city_id>/<city_name>')
+@app.route('/edit/category/<int:category_id>/<category_name>')
+def edit_obj(city_id=None,city_name=None,category_id=None,category_name=None):
+    if city_id:
+        obj = models.City.query.filter(models.City.id == city_id).first()
+        obj.name = city_name;
+        db_session = db.session.object_session(obj)
+        db_session.commit()
+        return redirect(url_for('cities'))
+    elif category_id:
+        obj = models.Category.query.filter(models.Category.id == category_id).first()
+        obj.name = category_name;
+        db_session = db.session.object_session(obj)
+        db_session.commit()
+        return redirect(url_for('categories'))
+    else:
+        redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

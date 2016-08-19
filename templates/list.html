@@ -38,8 +38,12 @@
           <td>{{ obj.name }}</td>
           <td class="btn-group">
             <a type="button" class="btn btn-default glyphicon glyphicon-edit" href="
-            {%- if title == '景点' -%} {{url_for('place_edit',place_id=obj.id)}} {% endif %}
-            "> 修改</a>
+            {%- if title == '景点' -%} {{url_for('place_edit',place_id=obj.id)}} {% else %} # {% endif %}
+            "
+            {%- if title != '景点' -%}
+              data-toggle="modal" data-target="#edit_modal" onclick="showmodal({{obj.id}},'{{obj.name}}')"
+            {% endif %}
+            > 修改</a>
             <a type="button" class="btn btn-danger glyphicon glyphicon-trash" href="
             {%- if title == '城市' -%}{{url_for('delet_obj',city_id=obj.id)}}{% endif %}
             {%- if title == '分类' -%}{{url_for('delet_obj',category_id=obj.id)}}{% endif %}
@@ -52,5 +56,41 @@
     </table>
   </div>
 
-{% endblock %}
+<div id="edit_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">修改</h3>
+      </div>
+      <div class="modal-body">
+        <p>将 <span id="cityid" class="label label-danger">1</span> ：<span id="oldcityname" class="label label-info">重庆</span> 修改为 ：<input id="newcityname" type="text"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button class="btn btn-primary" onclick="update()">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+<script language="javascript">
+var cid;
+function showmodal(id,oldname){
+    cid=id;
+    $("#cityid").text(id);
+    $("#oldcityname").text(oldname);
+}
+function update(){
+  {%- if title == '城市' -%} 
+    location.href= "/edit/city/"+ cid +"/"+$("#newcityname").val();
+  {% endif %}
+
+  {%- if title == '分类' -%}
+    location.href= "/edit/category/"+ cid +"/"+$("#newcityname").val();
+  {% endif %}
+}
+</script>
+        
+
+{% endblock %}
