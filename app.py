@@ -75,6 +75,7 @@ def place_edit(place_id=None):
         place.category_id = request.form.get('place_category_id')
         place.description = request.form.get('place_desc')
         place.excerpt = request.form.get('place_excerpt')
+        place.headimg = request.form.get('place_headimg')
 
         if not place_id:
             db.session.add(place)
