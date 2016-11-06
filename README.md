@@ -8,4 +8,4 @@ iOS 网络通讯第一课所用 Demo，第一版用PHP搭建在 SAE 上的，后
 ### TODO
 
 - [x] 基础数据增删改
-- [ ] JSON 接口
+- [x] JSON 基本接口
