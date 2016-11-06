@@ -24,6 +24,9 @@ class Place(db.Model):
     category = db.relationship('Category', backref=db.backref('places', lazy='dynamic'))
     headimg = db.Column(db.Text)
 
+    def dict_data(self):
+        return {'id':self.id,'name':self.name,'postion':self.postion,'excerpt':self.excerpt,'description':self.description,'category_id':self.category_id,'headimg':self.headimg}
+
     def __repr__(self):
         return '<Places %r>' % (self.name)
 
@@ -31,6 +34,9 @@ class Category(db.Model):
     __tablename__ = 'Category'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), unique=True)
+
+    def dict_data(self):
+        return {'id':self.id,'name':self.name}
 
     def __init__(self, name=None):
             self.name = name

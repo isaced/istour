@@ -52,7 +52,9 @@
         <select class="form-control" name="place_category_id">
         {% for category in category_list %}
           <option value="{{category.id}}"
-          {% if place is defined and category.id|int()==place.category_id|int() %} selected="selected" {% endif %}
+          {% if place is defined and category.id|int()==place.category_id|int() %} 
+          selected="selected" 
+          {% endif %}
           >{{category.name}}</option>
         {% endfor %}
         </select>

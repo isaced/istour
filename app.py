@@ -3,7 +3,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
-from flask import request,redirect,url_for
+from flask import request,redirect,url_for,jsonify
 import os
 
 app = Flask(__name__)
@@ -137,6 +137,31 @@ def edit_obj(city_id=None,city_name=None,category_id=None,category_name=None):
     else:
         redirect(url_for('index'))
 
+# api
+
+@app.route('/api/categories')
+def api_categories():
+    obj_list = models.Category.query.all()
+    json = []
+    for category in obj_list:
+        json.append(category.dict_data())
+    return jsonify(json)
+
+@app.route('/api/places')
+def api_places():
+    category_id = request.args.get('category_id')
+    print(category_id)
+    if category_id:
+        obj_list = models.Place.query.filter(models.Place.category_id == category_id)
+    else:
+        obj_list = models.Place.query.all()
+    json = []
+    for place in obj_list:
+        json.append(place.dict_data())
+    return jsonify(json)
+
+
+# main
 if __name__ == '__main__':
     app.debug = True
     app.run()
