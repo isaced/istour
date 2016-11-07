@@ -34,8 +34,8 @@
   <br>
   <div class="input-group">
     <div class="input-group-addon">预览图</div>
-    <input class="form-control" name="place_headimg" placeholder="http://temp.im/100x100" value="{{ place.headimg if place is defined }}">
-    <img src="http://temp.im/100x100" class="img-thumbnail" width="100" height="100">
+    <input id="place_headimg_input" class="form-control" name="place_headimg" placeholder="http://temp.im/100x100" value="{{ place.headimg if place is defined }}">
+    <img id="place_headimg_img" src="{{ place.headimg if place is defined }}" class="img-thumbnail" width="100" height="100">
   </div>
   <br>
   <div class="form-group">
@@ -68,6 +68,15 @@
 
   <button type="submit" class="btn btn-default" style="width:100%">提交</button>
 </form>
-
 {% endblock %}
 
+{% block page_end %}
+<script type="text/javascript">
+$(function(){    
+  $('#place_headimg_input').bind('input propertychange', function() {  
+    var url = $(this).val()
+    $("#place_headimg_img").attr('src',url);
+  });
+})  
+</script>
+{% endblock %}
