@@ -150,7 +150,6 @@ def api_categories():
 @app.route('/api/places')
 def api_places():
     category_id = request.args.get('category_id')
-    print(category_id)
     if category_id:
         obj_list = models.Place.query.filter(models.Place.category_id == category_id)
     else:
@@ -159,6 +158,15 @@ def api_places():
     for place in obj_list:
         json.append(place.dict_data())
     return jsonify(json)
+
+@app.route('/api/place')
+def api_place():
+    place_id = request.args.get('id')
+    place = models.Place.query.filter(models.Place.id == place_id).first()
+    response_dict = {}
+    if place:
+        response_dict = place.dict_data_short()
+    return jsonify(response_dict)
 
 
 # main

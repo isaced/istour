@@ -24,6 +24,9 @@ class Place(db.Model):
     category = db.relationship('Category', backref=db.backref('places', lazy='dynamic'))
     headimg = db.Column(db.Text)
 
+    def dict_data_short(self):
+        return {'id':self.id,'name':self.name,'postion':self.postion,'excerpt':self.excerpt,'category_id':self.category_id,'headimg':self.headimg}
+
     def dict_data(self):
         return {'id':self.id,'name':self.name,'postion':self.postion,'excerpt':self.excerpt,'description':self.description,'category_id':self.category_id,'headimg':self.headimg}
 
