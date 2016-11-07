@@ -156,7 +156,7 @@ def api_places():
         obj_list = models.Place.query.all()
     json = []
     for place in obj_list:
-        json.append(place.dict_data())
+        json.append(place.dict_data_short())
     return jsonify(json)
 
 @app.route('/api/place')
@@ -165,7 +165,7 @@ def api_place():
     place = models.Place.query.filter(models.Place.id == place_id).first()
     response_dict = {}
     if place:
-        response_dict = place.dict_data_short()
+        response_dict = place.dict_data()
     return jsonify(response_dict)
 
 
