@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask
+from flask import Flask, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 from flask import request,redirect,url_for,jsonify
 import os
+from werkzeug.datastructures import Headers
 
 app = Flask(__name__)
 
@@ -14,6 +15,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
 db = SQLAlchemy(app)
 import models
+
+class MyResponse(Response):
+    def __init__(self, response=None, **kwargs):
+        kwargs['headers'] = ''
+        headers = kwargs.get('headers')
+        # 跨域控制
+        origin = ('Access-Control-Allow-Origin', '*')
+        if headers:
+            headers.add(*origin)
+        else:
+            headers = Headers([origin])
+        kwargs['headers'] = headers
+        return super().__init__(response, **kwargs)
+
+app.response_class = MyResponse
 
 @app.route('/')
 def index():
